@@ -1,0 +1,36 @@
+.stamp.pending{opacity:.55}.stamp small{color:var(--muted)}
+.graduation{border-color:var(--gold);background:#1d3a3f}.graduation .nightTitle{margin:4px 0 16px;font-size:25px}.graduation .history{margin-bottom:14px}.graduation .stamp strong{font:700 22px ui-monospace,monospace}
+.rapportRow{display:flex;gap:6px 14px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}.rapportRow span{display:flex;align-items:center;gap:5px}.rapportRow .initial{display:grid;place-items:center;width:20px;height:20px;border-radius:4px;background:#35565b;color:var(--gold);font-size:11px;font-style:normal}.rapportRow b{color:var(--mint);font-weight:500}
+.player.sheet{width:6.5%;min-width:28px;max-width:70px}.player.sheet>img{display:none}.player .sprite{width:100%;aspect-ratio:2/3;background-repeat:no-repeat;background-size:400% 400%;image-rendering:pixelated;filter:drop-shadow(0 3px 0 #183b4266)}
+@media(max-width:600px){.top nav button{padding:7px 7px}.graduation .nightTitle{font-size:21px}}
+/* 学习手册 */
+.bookTabs .selected{border-color:var(--gold);color:var(--gold)}
+.cardGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.kcard{display:flex;flex-direction:column;gap:6px;text-align:left;padding:16px;min-height:120px;background:#22434f;border:1px solid #4d6a74;border-radius:8px;box-shadow:0 3px 0 #0b2028;color:var(--text)}.kcard small{color:var(--mint);font:12px ui-monospace,monospace}.kcard b{font-size:15px;line-height:1.5}.kcard span{margin-top:auto;font-size:12px;color:var(--gold)}.kcard.locked{opacity:.55;box-shadow:none}.kcard.locked span{color:var(--muted)}
+.kcardNotice{border-color:var(--gold)}
+.termFilter{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0 16px}.termFilter input{flex:1;min-width:200px;background:#102d38;color:var(--text);border:1px solid #5a7b82;border-radius:6px;padding:9px 12px;font-size:14px}
+.termRow{border-bottom:1px solid #355461;padding:12px 0}.termRow:last-child{border-bottom:0}.termNames{display:flex;flex-wrap:wrap;gap:4px 18px;align-items:baseline}.termNames b{color:var(--gold);font-size:15px}.termNames span[lang=ja]{color:#d3e7ed;font-size:14px}.termNames span[lang=ja] small{color:var(--muted);margin-left:6px;font-size:11px}.termNames span[lang=en]{color:var(--mint);font-size:13px}.termRow p{margin:6px 0 0;font-size:13px;color:var(--muted)}
+.fabList,.pointList{margin:8px 0;padding-left:22px;font-size:14px}.fabList li,.pointList li{margin:7px 0}.pointList{list-style:none;padding-left:0}.pointList input{accent-color:var(--gold);margin-right:6px}
+.drillList{display:grid;gap:8px;margin-top:16px}.drillItem{display:flex;justify-content:space-between;align-items:center;gap:14px;text-align:left;padding:12px 14px;font-size:14px}.drillItem small{display:block;color:var(--muted);font-size:12px;margin-top:3px}.drillItem em{font-style:normal;font-size:12px;white-space:nowrap;color:var(--muted)}.drillItem em.lv2{color:var(--mint)}.drillItem em.lv1{color:var(--gold)}.drillItem em.lv0{color:#ffbb89}
+@media(max-width:600px){.cardGrid{grid-template-columns:1fr 1fr}.top{flex-wrap:wrap}.top nav{margin-left:0;width:100%;justify-content:flex-end}.drillItem{flex-direction:column;align-items:flex-start;gap:6px}}
+/* FMEA 练习 */
+.fmeaGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:10px 0}.fmeaGrid b{color:var(--mint);font-size:12px;font-weight:500}.fmeaGrid p{margin:4px 0 0;font-size:13px}.fmeaScore{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin-top:8px}.fmeaScore label{font:14px ui-monospace,monospace;color:var(--gold)}.fmeaScore .rpn{font-size:14px;color:var(--muted)}.fmeaScore .rpn b{color:var(--text);font:700 18px ui-monospace,monospace}.fmeaScore button{font-size:13px;margin-left:auto}
+@media(max-width:600px){.fmeaGrid{grid-template-columns:1fr}.fmeaScore button{margin-left:0}}
+
+/* 知识卡日英对照 */
+.bi{display:grid;grid-template-columns:1fr 1fr;gap:6px 22px;align-items:start}.bi>div{min-width:0;font-size:14px}.bi>div[lang=en]{color:#cfe3e0;border-left:1px solid #3b5c67;padding-left:20px;line-height:1.6}.bi p{margin:4px 0 8px}.biList{padding-left:20px}.biList li{margin:10px 0}.zhNote{margin:2px 0 10px}.zhNote summary{font-size:12px;color:var(--muted)}.zhNote div{font-size:13px;color:var(--muted)}.kcard em{font-style:normal;font-size:12px;color:var(--muted);line-height:1.4}.section h3 small{font-size:12px;font-weight:400;color:var(--mint)}
+@media(max-width:700px){.bi{grid-template-columns:1fr}.bi>div[lang=en]{border-left:0;padding-left:0;border-top:1px dashed #3b5c67;padding-top:6px}}
+
+/* iOS / 触屏适配：刘海安全区、禁止双击缩放、输入框不触发自动放大、触屏始终显示方向键 */
+body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);-webkit-text-size-adjust:100%}
+button,a,select,input[type=range],.station,.task{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.world{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.toast{bottom:calc(28px + env(safe-area-inset-bottom))}
+@media(pointer:coarse){input,select,textarea,.knob .num,.termFilter input{font-size:16px!important}.dpad{display:flex!important}.keyHint{display:none!important}.dpad button{padding:10px 14px;font-size:16px}.knob input[type=range]{height:34px}}
+/* 窄屏也要能进入其他页面（rpg.css 在 ≤900px 时隐藏了顶栏链接） */
+@media(max-width:900px){.top nav{flex-wrap:wrap;row-gap:6px}.top nav a{display:inline-block!important;font-size:13px;padding:6px 4px}.top nav a[href="rpg-choice.html"]{display:none!important}}
+
+/* 制造流程 */
+.flowRow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0 18px}.flowArrow{color:var(--muted);font-size:14px}.flowLoop{border:1px dashed #6c8780;border-radius:10px;padding:8px 12px 12px;flex:1;min-width:260px}.flowLoopRow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:4px}
+.flowChip{display:flex;flex-direction:column;align-items:flex-start;gap:1px;padding:7px 11px;font-size:13px;text-align:left}.flowChip small{font-size:10px;color:var(--muted)}.flowChip.selected{border-color:var(--gold);color:var(--gold)}.flowChip.isCmp{background:#35564e;border-color:var(--mint)}
+.useGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.useGrid .section{margin:0}
+@media(max-width:700px){.useGrid{grid-template-columns:1fr}}

@@ -1,0 +1,14 @@
+/* 练习页（轮廓调整、缺陷图）共用布局；颜色变量沿用 rpg.css */
+.caseTabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}.caseTabs button{font-size:14px}.caseTabs .selected{border-color:var(--gold);color:var(--gold)}.stars{color:var(--gold);font-size:12px;letter-spacing:1px;margin-left:4px}
+.labGrid{display:grid;grid-template-columns:minmax(0,430px) minmax(0,1fr);gap:18px;align-items:start;margin-bottom:18px}
+.headRow{display:grid;grid-template-columns:170px 1fr;gap:16px;align-items:center}.headSvg{width:100%;display:block}.zoneList .knob{margin:6px 0 10px}
+.toolPanel .knob{margin:10px 0 14px}.toolPanel .knob .num{width:84px}
+.runControls button{display:flex;flex-direction:column;align-items:flex-start;gap:1px}.runControls button small{font-size:10px;color:var(--gold)}.runControls .primary small{color:#5d4a1f}
+.lg.prev::before{border-color:#8aa7ad;border-top-style:dashed}.lg.bandLg::before{border-color:#79dbc166;border-top-width:8px}
+#labDialog{width:min(820px,94vw)}
+/* 缺陷图 */
+.defectGrid{display:grid;grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:18px;align-items:start}.defMap{width:100%;max-width:420px;display:block;margin:auto}
+.answerGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.answerGrid button{text-align:left;font-size:14px;padding:11px 12px}.answerGrid button.picked{border-color:var(--gold);color:var(--gold)}.answerGrid button.right{border-color:var(--mint);background:#204f47}.answerGrid button.wrong{border-color:#f08c6a;background:#4a322c}
+.defLegend{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:12px;color:var(--muted);margin:8px 0}.defLegend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:middle}
+@media(max-width:900px){.labGrid,.defectGrid{grid-template-columns:1fr}.headRow{grid-template-columns:130px 1fr}.answerGrid{grid-template-columns:1fr}}
+.axisNote{margin:4px 0 0}

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN" data-ja-title="グラフ判読ラボ · Fab Days">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="CMP 现场图表判读练习：控制图、机台对比、晶圆地图、帕累托、分层、Cpk、变化点、量测比对、改善对照。">
+<title>图表判读练习 · Fab Days</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231a343e'/%3E%3Ccircle cx='16' cy='16' r='10' fill='%236de1cc'/%3E%3Cpath d='M9 9h14v14H9zM16 6v20M6 16h20' fill='none' stroke='%231a343e' stroke-width='2'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="rpg.css">
+<link rel="stylesheet" href="practical.css">
+<link rel="stylesheet" href="extras.css">
+<link rel="stylesheet" href="shift.css">
+<link rel="stylesheet" href="labs.css">
+<style>
+#card{max-width:900px;margin:0 auto}
+#card .headRow{grid-template-columns:130px 1fr;margin-bottom:10px}
+#card h3{margin:18px 0 6px}
+.answerGrid button.picked{border-color:var(--gold);color:var(--gold)}
+.advanceBar{position:static;background:none;border:0;box-shadow:none;padding:0}
+body{padding-bottom:0}
+</style>
+<script defer src="i18n.js"></script>
+<script defer src="chartlab.js"></script>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#11232c">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Fab Days">
+<link rel="apple-touch-icon" href="assets/icons/icon-180.png">
+<script defer src="pwa.js"></script>
+</head>
+<body>
+<header class="top">
+<div class="logo"><span class="logoGlyph">◈</span><div><b data-ja="グラフ判読ラボ">图表判读练习</b><small>FAB DAYS · CHART LAB</small></div></div>
+<nav>
+<button id="langButton" data-ja="中文">日本語</button>
+<button id="helpButton" data-ja="? 説明">? 说明</button>
+<a href="index.html" data-ja="← 研修センター">← 研修中心</a>
+<a href="shift.html" data-ja="量産シフト">量产值班</a>
+<a href="defects.html" data-ja="欠陥マップラボ">缺陷图练习</a>
+</nav>
+</header>
+<main class="game">
+<div class="caseTabs" id="caseTabs"></div>
+<section class="toolPanel" id="card"></section>
+<footer>
+<span data-ja="9 種類の図 · 毎回ランダム生成 · 何が見えるか、次に何をするか">九类图表 · 每题随机生成 · 看到了什么，下一步做什么</span>
+<span data-ja="教育用モデルであり、実際の装置データではありません。">教学模型，非实际设备数据。</span>
+</footer>
+</main>
+<dialog id="labDialog"><div class="dialogTop"><div><span class="overline">CHART LAB</span><h2 data-ja="グラフ判読の練習について">关于图表判读练习</h2></div><button id="dlgClose" class="close" aria-label="close">×</button></div><div id="help" style="padding:18px"></div></dialog>
+<div id="toast" class="toast" role="status" hidden></div>
+</body>
+</html>

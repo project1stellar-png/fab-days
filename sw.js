@@ -1,6 +1,6 @@
 /* 离线缓存。策略：安装时预缓存全部文件；之后“先用缓存、后台更新”，所以改动会在下一次启动时生效。
    文件清单和 CACHE 版本号由项目根目录的 build_sw.js 生成：dist 有改动后、部署前运行 node build_sw.js。 */
-const CACHE='fab-days-7695bbe065';
+const CACHE='fab-days-7695bbe066';
 const FILES=[
  "./app.js",
  "./assets/cmp-lab-map.png",
@@ -13,6 +13,8 @@ const FILES=[
  "./cases.html",
  "./changelog.html",
  "./changelog.js",
+ "./chartlab.html",
+ "./chartlab.js",
  "./data.js",
  "./defects.html",
  "./defects.js",

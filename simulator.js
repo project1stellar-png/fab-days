@@ -22,12 +22,21 @@ const solutions=[
 ];
 /* 本场的“关键动作”是否做过：用于结案后判断是消除了原因，还是只做了补偿。 */
 function keyAction(sim){const n=sim.scenario,bad=sim.truth?.tool||'A',sv=sim.services.filter(s=>s.tool===bad).map(s=>s.action),final=sim.runs.find(r=>r.id===sim.finalId),p=final?.snapshot.recipe;if(n===0)return sv.includes('condition')||sv.includes('pad');if(n===1)return sv.includes('flow');if(n===2)return sv.includes('ring');if(n===3)return !!p&&(p.temp<=24||final.snapshot.actual.flow>=190);if(n===4)return sim.services.some(s=>s.action==='meter')||sim.runs.some(r=>r.measurements.some(m=>m.meter==='M2'));return sv.includes('pressure');}
+/* 进行中显示的任务说明：只写现象，不点名原因方向。原 brief 结案后再显示。 */
+const tasks=[
+ T('Tool A 最近加工后的膜厚比历史值高。配方没有改动，设备没有报警。先用试片建立基准，再找出原因并验证。','Tool A の最近の研磨後膜厚が過去の実績より高くなっています。レシピは変更されておらず、装置のアラームもありません。まずテストウェーハでベースラインを取り、原因を特定して検証してください。'),
+ T('Tool A 的去除量不足，膜厚偏高。配方没有改动，设备没有报警。找到可重复的改善，并说明原因。','Tool A の除去量が不足し、膜厚が高めです。レシピは変更されておらず、装置のアラームもありません。再現性のある改善策を見つけ、原因を説明してください。'),
+ T('Tool A 的平均膜厚接近目标，但均匀性和缺陷开始恶化。找出原因并验证，注意不要只看均值。','Tool A の平均膜厚は目標に近いものの、均一性と欠陥が悪化し始めています。平均値だけで判断せず、原因を特定して検証してください。'),
+ T('两台机台都出现缺陷增加、去除量不稳定。配方最近有过调整。找出原因并验证。','2 台とも欠陥が増え、除去量も安定していません。レシピは最近調整されています。原因を特定して検証してください。'),
+ T('加工后膜厚的读数突然降低。机台没有变更记录，设备没有报警。先决定怎样确认这个现象，再决定是否调整工艺。','研磨後膜厚の測定値が急に低下しました。装置側に変更の記録はなく、アラームもありません。まずこの現象をどう確認するかを決め、そのうえでプロセスを調整するかどうかを判断してください。'),
+ T('同一配方下，Tool A 最近的膜厚和缺陷与 Tool B 出现了差异。找出原因，并让两台机台重新可比。','同じレシピで、Tool A の最近の膜厚と欠陥が Tool B と異なっています。原因を特定し、2 台を再び比較可能な状態にしてください。')
+];
 const clone=o=>JSON.parse(JSON.stringify(o)),r=(x,n=2)=>Math.round(x*10**n)/10**n;
 function random(seed){let a=seed>>>0;return ()=>{a+=0x6D2B79F5;let t=a;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return ((t^t>>>14)>>>0)/4294967296}}
 function tool(id){return {id,pad:{serial:id+'-P0',type:'standard',age:600,glaze:0,ready:1,conditioning:0},ring:{serial:id+'-R0',wear:.08,age:1800},slurry:'L1',flowGain:1,pressureGain:1,calibration:0,flowCalibration:0,pressureCalibration:0};}
 /* 每次开场随机：故障幅度、耗材使用量、片间波动。第二轮（第 7 天）起，问题机台可能是 B，并混入与原因无关的“看起来可疑”的耗材；
    第 3 天起偶尔发生研磨液换桶。随机结果存进 sim，读档后不变；truth 只在结案复盘里公布。 */
-function init(day){const n=(day-1)%6,loop=Math.floor((day-1)/6),seed=Math.floor(Math.random()*2147483646)+1,rnd=random(seed),pick=(lo,hi,step)=>r(lo+Math.floor(rnd()*(Math.round((hi-lo)/step)+1))*step,3);
+function init(day,scenario){const n=Number.isInteger(scenario)&&scenario>=0&&scenario<6?scenario:(day-1)%6,loop=Math.floor((day-1)/6),seed=Math.floor(Math.random()*2147483646)+1,rnd=random(seed),pick=(lo,hi,step)=>r(lo+Math.floor(rnd()*(Math.round((hi-lo)/step)+1))*step,3);
 const tools={A:tool('A'),B:tool('B')},recipes={A:defaults(),B:defaults()},bad=loop>0&&rnd()<.5?'B':'A',f=tools[bad];let value=null,herring=null,event=null;
 for(const t of Object.values(tools)){t.pad.age=pick(300,1100,50);t.ring.age=pick(1200,2600,100)}
 if(n===0){f.pad.age=pick(2100,2700,50);f.pad.glaze=pick(.45,.65,.05)}if(n===1){f.flowGain=pick(.6,.72,.03);value=Math.round(f.flowGain*100)}if(n===2){f.ring.wear=pick(.8,.95,.05);f.ring.age=pick(7600,8800,100)}if(n===3){recipes.A.temp=27;recipes.A.flow=150;recipes.B.temp=27;recipes.B.flow=150}if(n===5){f.pressureGain=pick(1.14,1.22,.02);value=Math.round((f.pressureGain-1)*100)}
@@ -41,7 +50,7 @@ function describe(sim){const s=scenarios[sim.scenario],swap=sim.truth?.tool==='B
 if(sim.herring)debrief+=' '+(sim.herring.kind==='pad'?T(`干扰项：Tool ${sim.herring.tool} 的研磨垫使用量偏高，但表面没有堵塞，不是本场原因。`,`紛らわしい点：Tool ${sim.herring.tool} の研磨パッドは使用量が多めでしたが、表面の目詰まりはなく、今回の原因ではありません。`):T(`干扰项：Tool ${sim.herring.tool} 的保持环使用量偏高，但磨损指数正常，不是本场原因。`,`紛らわしい点：Tool ${sim.herring.tool} のリテーナリングは使用量が多めでしたが、摩耗指数は正常で、今回の原因ではありません。`));
 if(sim.event?.fired)debrief+=' '+T('突发事件：中途研磨液从 L1 换成 L2，L2 的去除速率约高 4.5%。换桶前后的试片不是同一条件。','突発イベント：途中でスラリーが L1 から L2 に切り替わりました。L2 は研磨レートが約 4.5% 高く、切り替え前後のウェーハは同一条件ではありません。');
 if(sim.slips?.length)debrief+=' '+T('专注力不足时的操作失误：','集中力が低いときの操作ミス：')+sim.slips.map(x=>x.kind==='recipe'?T(`${x.at} 加工 #${x.run} 前，Tool ${x.tool} 的${bounds[x.key][3]}从 ${x.from} 误设为 ${x.to} ${bounds[x.key][4]}`,`${x.at} #${x.run} の処理前に、Tool ${x.tool} の${bounds[x.key][3]}を ${x.from} から ${x.to} ${bounds[x.key][4]} に誤設定`):T(`${x.at} 量测 ${x.runs.map(n=>'#'+n).join('、')} 时本想用 ${x.want}，实际用了 ${x.got}`,`${x.at} ${x.runs.map(n=>'#'+n).join('、')} の測定で ${x.want} のつもりが ${x.got} を使用`)).join(T('；','；'))+T('。这些都留在了记录里，你当时发现了吗？','。いずれも記録に残っていました。その場で気づけましたか？');
-const so=solutions[sim.scenario];return {title:s.title,brief:fix(s.brief),debrief,solution:{see:fix(so.see),find:fix(so.find),fix:fix(so.fix),trap:fix(so.trap)}};}
+const so=solutions[sim.scenario];return {title:s.title,brief:fix(s.brief),task:fix(tasks[sim.scenario]),debrief,solution:{see:fix(so.see),find:fix(so.find),fix:fix(so.fix),trap:fix(so.trap)}};}
 function fireEvent(g){const e=g.sim.event;if(!e||e.fired||g.sim.runs.length<e.after)return;const hit=Object.values(g.sim.tools).filter(t=>t.slurry==='L1');if(!hit.length){g.sim.event=null;return}e.fired=true;for(const t of hit)t.slurry='L2';const label=T('物料通知：L1 当前桶已用完，供液自动切到 L2（可在耗材页换回新一桶 L1）','資材連絡：L1 の現在の缶が空になり、供給が自動で L2 に切り替わりました（消耗品ページで新しい L1 に戻せます）');g.shift.log.push({at:CMP_RPG.time(g),text:label});g.sim.services.push({at:CMP_RPG.time(g),action:'event',arg:'',tool:hit.map(t=>t.id).join('/'),label});e.notice=label;}
 /* 专注力低于 FOCUS 时，加工和量测可能出现操作失误。失误如实留在配方、快照和量测记录里，当场不提示，结案复盘才公布。
    休息的恢复量逐次递减（35、30、25…最低 15），所以靠反复休息硬撑一整天行不通。 */
